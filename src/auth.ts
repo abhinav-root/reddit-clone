@@ -6,6 +6,13 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./helpers/db";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  session: { strategy: "jwt" },
+  debug: process.env.NODE_ENV !== "production",
+  pages: {
+    signOut: "/",
+    signIn: "/login",
+    newUser: "/",
+  },
   adapter: PrismaAdapter(prisma),
   providers: [
     Google,
@@ -19,16 +26,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async ({ email, password }) => {
         let user = null;
 
-        if (!email || !password) {
-          throw new Error("Missing email or password");
-        }
-
         user = await prisma.user.findUnique({
           where: { email: email as string },
         });
-        console.log({user})
         if (!user) {
-          throw new Error("Invalid email or password");
+          return null;
         }
 
         const pepper = process.env.PASSWORD_PEPPER as string;
@@ -37,11 +39,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           password + user.salt! + pepper,
           user.password
         );
-        console.log({isCorrectPassword})
         if (!isCorrectPassword) {
-          throw new Error("Invalid email or password");
+          return null;
         }
-
+        
         return user;
       },
     }),

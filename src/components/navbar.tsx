@@ -32,10 +32,14 @@ export default function Navbar() {
             className={cn("tracking-wide hidden sm:inline-flex")}
             asChild
           >
-            <Link href={"/login"}>Login</Link>
+            <Link href={"/login"} scroll={false}>
+              Login
+            </Link>
           </Button>
           <Button className={cn("tracking-wide sm:hidden")} asChild>
-            <Link href={"/login"}>Login</Link>
+            <Link href={"/login"} scroll={false}>
+              Login
+            </Link>
           </Button>
           <Button className={cn("hidden sm:inline-flex")} asChild>
             <Link href={"/signup"} scroll={false}>

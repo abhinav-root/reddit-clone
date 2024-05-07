@@ -1,8 +1,11 @@
+import { auth } from "@/auth";
 import Image from "next/image";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth()
   return (
    <main className="bg-red-100 min-h-screen">
+    <div>{JSON.stringify(session)}</div>
     Home screen
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, dolor perspiciatis et incidunt fugit aliquid natus, quibusdam eum temporibus, eos reiciendis quod vel praesentium ut nemo voluptatem veniam laudantium optio.
     Tempore recusandae dignissimos sint dolor quia natus itaque numquam quam quod distinctio fugit est omnis magnam cum laborum veniam vero non, asperiores consequatur nostrum soluta error? Harum inventore repudiandae atque!

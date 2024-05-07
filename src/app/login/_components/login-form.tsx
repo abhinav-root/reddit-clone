@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginSchema, LoginSchema} from "../_schemas";
+import { loginSchema, LoginSchema } from "../_schemas";
 import { login } from "../_actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -36,12 +36,14 @@ export default function LoginForm() {
 
   async function onSubmit(values: LoginSchema) {
     const response = await login(values);
-    if (!response.success) {
-      toast.error(response.error, { position: "bottom-center" });
+    if (response?.success === false) {
+      toast.error(response?.error ?? "Some error occured", {
+        position: "bottom-center",
+      });
       return;
     }
-    // toast.success(response.message, { position: "bottom-center" });
-    // router.replace("/");
+    toast.success("Logged in", { position: "bottom-center" });
+    router.replace("/");
   }
   return (
     <div className="border p-6 rounded shadow">
