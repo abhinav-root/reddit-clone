@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,7 +23,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export function SignupForm() {
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -39,13 +38,12 @@ export function SignupForm() {
 
   async function onSubmit(values: SignupSchema) {
     const response = await signup(values);
-    console.log({response})
     if (!response.success) {
-        toast.error(response.error, {position: "bottom-center"})
-        return;
+      toast.error(response.error, { position: "bottom-center" });
+      return;
     }
-    toast.success(response.message, {position: "bottom-center"})
-    router.replace("/")
+    toast.success(response.message, { position: "bottom-center" });
+    router.replace("/");
   }
   return (
     <div className="border p-6 rounded shadow">
