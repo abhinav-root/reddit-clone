@@ -15,18 +15,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SignupSchema, signupSchema } from "../_schemas";
-import { signup } from "../_actions";
+import { loginSchema, LoginSchema} from "../_schemas";
+import { login } from "../_actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import ContinueWithGoogle from "@/components/continue-with-google";
 
-export function SignupForm() {
+export default function LoginForm() {
   const router = useRouter();
-  const form = useForm<SignupSchema>({
-    resolver: zodResolver(signupSchema),
+  const form = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
       email: "",
       password: "",
     },
@@ -35,35 +34,22 @@ export function SignupForm() {
     formState: { isSubmitting },
   } = form;
 
-  async function onSubmit(values: SignupSchema) {
-    const response = await signup(values);
+  async function onSubmit(values: LoginSchema) {
+    const response = await login(values);
     if (!response.success) {
       toast.error(response.error, { position: "bottom-center" });
       return;
     }
-    toast.success(response.message, { position: "bottom-center" });
-    router.replace("/");
+    // toast.success(response.message, { position: "bottom-center" });
+    // router.replace("/");
   }
   return (
     <div className="border p-6 rounded shadow">
       <h1 className="text-2xl font-bold text-center mb-6">
-        Create your account here
+        Login to your account
       </h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="John Doe" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="email"
@@ -101,7 +87,7 @@ export function SignupForm() {
             {isSubmitting && (
               <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Create Account
+            Login
           </Button>
         </form>
       </Form>
@@ -109,9 +95,9 @@ export function SignupForm() {
         <p className="text-gray-500 text-center text-sm">Or continue with</p>
         <ContinueWithGoogle />
         <div className="text-sm text-center">
-          Already a user?{" "}
-          <Link href={"/login"} className="text-blue-500 hover:underline">
-            Login
+          Not on reddit?{" "}
+          <Link href={"/signup"} className="text-blue-500 hover:underline">
+            Signup
           </Link>
         </div>
       </div>

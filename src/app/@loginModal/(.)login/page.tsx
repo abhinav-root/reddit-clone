@@ -1,7 +1,10 @@
 "use client";
 
-import { SignupForm } from "@/app/signup/_components/signup-form";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import LoginForm from "@/app/login/_components/login-form";
+import {
+  Dialog,
+  DialogContent,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,7 +24,7 @@ export default function SignupModal() {
     <Dialog open={open} onOpenChange={onOpenChangeHandler}>
       {/* <DialogTrigger>Open</DialogTrigger> */}
       <DialogContent className={cn("max-w-sm")}>
-        <SignupForm />
+        <LoginForm />
       </DialogContent>
     </Dialog>
   );

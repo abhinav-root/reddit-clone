@@ -19,9 +19,11 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
   signupModal,
+  loginModal,
 }: Readonly<{
   children: React.ReactNode;
   signupModal: React.ReactNode;
+  loginModal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -36,8 +38,9 @@ export default function RootLayout({
         <div className="container max-w-[1500px] mx-auto">
           {children}
           {signupModal}
+          {loginModal}
         </div>
-        <Toaster richColors closeButton duration={3000}/>
+        <Toaster richColors closeButton duration={3000} />
       </body>
     </html>
   );

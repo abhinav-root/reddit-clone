@@ -1,4 +1,5 @@
-import { SignupForm } from "./_components/signup-form";
+
+import LoginForm from "./_components/login-form";
 import GoToHome from "@/components/go-to-home";
 
 export default function SignupPage() {
@@ -7,9 +8,11 @@ export default function SignupPage() {
       <section className="pt-10">
         <GoToHome />
         <div className="mx-auto max-w-sm">
-          <SignupForm />
+          <LoginForm />
         </div>
       </section>
     </main>
   );
 }
+
+
