@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { FaUserCircle } from "react-icons/fa";
 import { IoAddOutline } from "react-icons/io5";
 import { HiOutlineBell } from "react-icons/hi2";
 
@@ -24,6 +23,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { logout } from "@/app/login/_actions";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getAvatarText } from "@/helpers/utils";
 
 export default async function Navbar() {
   const { user } = await validateRequest();
@@ -78,7 +79,12 @@ export default async function Navbar() {
               <HiOutlineBell size={26} className={cn("text-gray-600")} />
               <DropdownMenu>
                 <DropdownMenuTrigger>
-                  <FaUserCircle size={28} className={cn("text-gray-500")} />
+                  <Avatar>
+                    <AvatarImage src={user.profileImage} />
+                    <AvatarFallback>
+                      {getAvatarText(user.username)}
+                    </AvatarFallback>
+                  </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
