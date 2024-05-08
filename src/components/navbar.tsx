@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { FaUserCircle } from "react-icons/fa";
+import { IoAddOutline } from "react-icons/io5";
+import { HiOutlineBell } from "react-icons/hi2";
 
 import { cn } from "@/lib/utils";
 import {
@@ -12,6 +15,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
 import { validateRequest } from "@/lucia";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { logout } from "@/app/login/_actions";
 
 export default async function Navbar() {
   const { user } = await validateRequest();
@@ -28,9 +40,9 @@ export default async function Navbar() {
         </span>
         <Searchbar />
         <span className="space-x-6 flex items-center">
-          <MagnifyingGlassIcon className="size-6 hover:cursor-pointer md:hidden" />
           {!user && (
             <>
+              <MagnifyingGlassIcon className="size-7 hover:cursor-pointer md:hidden" />
               <Button
                 variant={"outline"}
                 className={cn("tracking-wide hidden sm:inline-flex")}
@@ -51,6 +63,40 @@ export default async function Navbar() {
                 </Link>
               </Button>
             </>
+          )}
+          {user && (
+            <div className="flex items-center space-x-5 md:space-x-10">
+              <MagnifyingGlassIcon className="size-7 hover:cursor-pointer md:hidden text-gray-600" />
+              <IoAddOutline
+                size={30}
+                className={cn("text-gray-600 md:hidden")}
+              />
+              <Button className={cn("md:inline-flex")} variant={"outline"}>
+                <IoAddOutline size={26} className="mr-1" />
+                Create
+              </Button>
+              <HiOutlineBell size={26} className={cn("text-gray-600")} />
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <FaUserCircle size={28} className={cn("text-gray-500")} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Billing</DropdownMenuItem>
+                  <DropdownMenuItem>Team</DropdownMenuItem>
+                  <DropdownMenuItem>Subscription</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <form action={logout}>
+                      <Button variant={"link"} type="submit">
+                        Logout
+                      </Button>
+                    </form>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           )}
         </span>
       </nav>
