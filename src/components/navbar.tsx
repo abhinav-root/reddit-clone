@@ -11,8 +11,10 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
+import { validateRequest } from "@/lucia";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const { user } = await validateRequest();
   return (
     <div className="border-b sticky top-0 z-10 bg-white">
       <nav className="py-4 flex justify-between items-center container max-w-[1500px] mx-auto">
@@ -27,25 +29,29 @@ export default function Navbar() {
         <Searchbar />
         <span className="space-x-6 flex items-center">
           <MagnifyingGlassIcon className="size-6 hover:cursor-pointer md:hidden" />
-          <Button
-            variant={"outline"}
-            className={cn("tracking-wide hidden sm:inline-flex")}
-            asChild
-          >
-            <Link href={"/login"} scroll={false}>
-              Login
-            </Link>
-          </Button>
-          <Button className={cn("tracking-wide sm:hidden")} asChild>
-            <Link href={"/login"} scroll={false}>
-              Login
-            </Link>
-          </Button>
-          <Button className={cn("hidden sm:inline-flex")} asChild>
-            <Link href={"/signup"} scroll={false}>
-              Sign up
-            </Link>
-          </Button>
+          {!user && (
+            <>
+              <Button
+                variant={"outline"}
+                className={cn("tracking-wide hidden sm:inline-flex")}
+                asChild
+              >
+                <Link href={"/login"} scroll={false}>
+                  Login
+                </Link>
+              </Button>
+              <Button className={cn("tracking-wide sm:hidden")} asChild>
+                <Link href={"/login"} scroll={false}>
+                  Login
+                </Link>
+              </Button>
+              <Button className={cn("hidden sm:inline-flex")} asChild>
+                <Link href={"/signup"} scroll={false}>
+                  Sign up
+                </Link>
+              </Button>
+            </>
+          )}
         </span>
       </nav>
     </div>

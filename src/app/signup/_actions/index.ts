@@ -1,9 +1,12 @@
 "use server";
 
 import * as crypto from "crypto";
+import { hash } from "@node-rs/argon2";
+import { cookies } from "next/headers";
 
 import { SignupSchema, signupSchema } from "../_schemas";
 import prisma from "@/helpers/db";
+import { lucia } from "@/lucia";
 
 export async function loginWithGoogle() {
   // await signIn("google");
@@ -30,11 +33,17 @@ export async function signup(form: SignupSchema) {
       };
     }
     const salt = generateSalt(100);
-    // const hashedPassword = await bcrypt.hash(password + salt + pepper, 12);
-    const hashedPassword = ""
-    await prisma.user.create({
+    const hashedPassword = await hash(password + salt + pepper);
+    const user = await prisma.user.create({
       data: { username, email, password: hashedPassword, salt },
     });
+    const session = await lucia.createSession(user.id, {});
+    const sessionCookie = lucia.createSessionCookie(session.id);
+    cookies().set(
+      sessionCookie.name,
+      sessionCookie.value,
+      sessionCookie.attributes
+    );
     return { success: true, message: "Account created successfully." };
   } catch (err) {
     console.log(err);
