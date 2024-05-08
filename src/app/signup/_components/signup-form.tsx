@@ -94,9 +94,6 @@ export function SignupForm() {
               </FormItem>
             )}
           />
-          <div className="text-sm text-right relative bottom-2 text-blue-500 hover:underline">
-            <Link href={"/forgot-password"}>Forgot Password?</Link>
-          </div>
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting && (
               <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
