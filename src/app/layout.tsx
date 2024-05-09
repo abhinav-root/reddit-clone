@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "bg-white text-slate-900 antialiased min-h-screen",
+          "bg-white text-slate-900 antialiased min-h-screen overflow-hidden",
           poppins.className
         )}
       >

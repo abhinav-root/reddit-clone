@@ -70,9 +70,9 @@ export default async function Navbar() {
               <MagnifyingGlassIcon className="size-7 hover:cursor-pointer md:hidden text-gray-600" />
               <IoAddOutline
                 size={30}
-                className={cn("text-gray-600 md:hidden")}
+                className={cn("text-gray-600 lg:hidden")}
               />
-              <Button className={cn("md:inline-flex")} variant={"outline"}>
+              <Button className={cn("hidden lg:inline-flex")} variant={"outline"}>
                 <IoAddOutline size={26} className="mr-1" />
                 Create
               </Button>
