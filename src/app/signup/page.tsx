@@ -5,7 +5,9 @@ export default function SignupPage() {
   return (
     <main>
       <section className="pt-10">
-        <GoToHome />
+        <div className="text-left px-10">
+          <GoToHome />
+        </div>
         <div className="mx-auto max-w-sm">
           <SignupForm />
         </div>

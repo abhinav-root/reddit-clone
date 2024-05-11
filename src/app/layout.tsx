@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import Navbar from "@/components/navbar";
 import React from "react";
 import { Toaster } from "sonner";
+import DefaultLeftSidebar from "@/components/sidebars/default-left-sidebar";
+import DefaultRightSidebar from "@/components/sidebars/default-right-sidebar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -35,13 +37,31 @@ export default function RootLayout({
       >
         <Navbar />
 
-        <div className="container max-w-[1500px] mx-auto">
-          {children}
+        <div className="container max-w-[1500px] mx-auto flex min-h-screen">
+          <LeftSidebar />
+          <div className="grow-[5] min-w-[500px] text-center">{children}</div>
+          <RightSidebar />
           {signupModal}
           {loginModal}
         </div>
         <Toaster richColors closeButton duration={3000} />
       </body>
     </html>
+  );
+}
+
+function LeftSidebar() {
+  return (
+    <div className="border-r grow max-w-72 hidden lg:flex">
+      <DefaultLeftSidebar />
+    </div>
+  );
+}
+
+function RightSidebar() {
+  return (
+    <div className="border-l grow max-w-72 hidden lg:flex py-4">
+      <DefaultRightSidebar />
+    </div>
   );
 }
