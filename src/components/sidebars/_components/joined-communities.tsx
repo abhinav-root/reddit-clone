@@ -41,17 +41,6 @@ export default function JoinedCommunities() {
     "AppleMusic",
     "appletv",
     "AppleWatch",
-    "airpods",
-    "AdviceAnimals",
-    "algorithms",
-    "AmazonPrime",
-    "AMD",
-    "AmericaBad",
-    "amiugly",
-    "AirTravelIndia",
-    "Androind",
-    "Analytics",
-    "androidthemes",
   ];
   const [viewCommunities, setViewCommunities] = useState(true);
   
@@ -64,7 +53,7 @@ export default function JoinedCommunities() {
         <CollapsibleContent className="px-2 pb-4">
           <div className="flex flex-col">
             <Link
-              href={"/community"}
+              href={"/r"}
               className="flex items-center space-x-2 hover:bg-gray-100 py-2 px-4 rounded-md"
             >
               <IoAddOutline className="size-6" />{" "}

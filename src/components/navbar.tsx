@@ -68,13 +68,21 @@ export default async function Navbar() {
           {user && (
             <div className="flex items-center space-x-5 md:space-x-10">
               <MagnifyingGlassIcon className="size-7 hover:cursor-pointer md:hidden text-gray-600" />
-              <IoAddOutline
-                size={30}
-                className={cn("text-gray-600 lg:hidden")}
-              />
-              <Button className={cn("hidden lg:inline-flex")} variant={"outline"}>
-                <IoAddOutline size={26} className="mr-1" />
-                Create
+              <Link href={"/r/submit"}>
+                <IoAddOutline
+                  size={30}
+                  className={cn("text-gray-600 lg:hidden")}
+                />
+              </Link>
+              <Button
+                className={cn("hidden lg:inline-flex")}
+                variant={"outline"}
+                asChild
+              >
+                <Link href={"/r/submit"}>
+                  <IoAddOutline size={26} className="mr-1" />
+                  Create
+                </Link>
               </Button>
               <HiOutlineBell size={26} className={cn("text-gray-600")} />
               <DropdownMenu>

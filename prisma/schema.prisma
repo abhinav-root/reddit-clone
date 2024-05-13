@@ -53,11 +53,11 @@ model Session {
 
 // A user will receive notifications from comms he/she has joined
 model Community {
-  id     String  @id @default(cuid())
-  name   String // 21 chars
-  title  String // 50 chars
-  image  String?
-  banner String?
+  id          String  @id @default(cuid())
+  name        String  @unique// 21 chars
+  title       String // 50 chars
+  description String? // 100
+  logo       String?
 
   relatedToId        String?
   relatedTo          Community?  @relation("RelatedCommunities", fields: [relatedToId], references: [id])
@@ -78,7 +78,8 @@ model Community {
 model Post {
   id          String     @id @default(cuid())
   title       String // max 50 chars
-  body        String // max 1000
+  body        String? // max 1000
+  image       String?
   communityId String
   community   Community  @relation(fields: [communityId], references: [id])
   votes       PostVote[]
@@ -121,74 +122,3 @@ model Rule {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
-
-// model Community {
-//   id        String   @id @default(cuid())
-//   name      String
-//   creator   User     @relation(fields: [creatorId], references: [id])
-//   creatorId String
-//   posts     Post[]
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   Member    Member[]
-// }
-
-// model Member {
-//   id          String    @id @default(cuid())
-//   community   Community @relation(fields: [communityId], references: [id])
-//   communityId String
-//   users       User[]
-// }
-
-// model Post {
-//   id          String     @id @default(cuid())
-//   title       String
-//   body        String?
-//   community   Community  @relation(fields: [communityId], references: [id])
-//   communityId String
-//   creator     User       @relation(fields: [creatorId], references: [id])
-//   creatorId   String
-//   Comment     Comment[]
-//   votes       PostVote[]
-//   createdAt   DateTime   @default(now())
-//   updatedAt   DateTime   @updatedAt
-// }
-
-// model PostVote {
-//   id        String   @id @default(cuid())
-//   creator   User     @relation(fields: [creatorId], references: [id])
-//   creatorId String
-//   post      Post     @relation(fields: [postId], references: [id])
-//   postId    String
-//   type      VoteType
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// model Comment {
-//   id        String        @id @default(cuid())
-//   body      String
-//   post      Post          @relation(fields: [postId], references: [id])
-//   postId    String
-//   creator   User          @relation(fields: [creatorId], references: [id])
-//   creatorId String
-//   votes     CommentVote[]
-//   createdAt DateTime      @default(now())
-//   updatedAt DateTime      @updatedAt
-// }
-
-// model CommentVote {
-//   id        String   @id @default(cuid())
-//   creator   User     @relation(fields: [creatorId], references: [id])
-//   creatorId String
-//   comment   Comment  @relation(fields: [commentId], references: [id])
-//   commentId String
-//   type      VoteType
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// enum VoteType {
-//   UP
-//   DOWN
-// }
