@@ -19,6 +19,7 @@ model User {
   sessions           Session[]
   joinedCommunities  Community[] @relation("JoinedCommunities")
   createdCommunities Community[] @relation("CreatedCommunities")
+  Post               Post[]
   createdAt          DateTime    @default(now())
   updatedAt          DateTime    @updatedAt
 }
@@ -54,10 +55,10 @@ model Session {
 // A user will receive notifications from comms he/she has joined
 model Community {
   id          String  @id @default(cuid())
-  name        String  @unique// 21 chars
+  name        String  @unique // 21 chars
   title       String // 50 chars
   description String? // 100
-  logo       String?
+  logo        String?
 
   relatedToId        String?
   relatedTo          Community?  @relation("RelatedCommunities", fields: [relatedToId], references: [id])
@@ -84,6 +85,9 @@ model Post {
   community   Community  @relation(fields: [communityId], references: [id])
   votes       PostVote[]
   comments    Comment[]
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

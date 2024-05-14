@@ -43,7 +43,7 @@ export default function JoinedCommunities() {
     "AppleWatch",
   ];
   const [viewCommunities, setViewCommunities] = useState(true);
-  
+
   return (
     <div className="my-4">
       <Collapsible open={viewCommunities} onOpenChange={setViewCommunities}>
@@ -59,10 +59,10 @@ export default function JoinedCommunities() {
               <IoAddOutline className="size-6" />{" "}
               <span className="text-sm">Create a community</span>
             </Link>
-            {communties.map((c) => (
+            {communties.map((communityName) => (
               <Link
-                key={c}
-                href={"/community"}
+                key={communityName}
+                href={`/r/${communityName}`}
                 className="flex items-center justify-between hover:bg-gray-100 py-2 px-4 rounded-md"
               >
                 <span className="flex items-center space-x-2">
@@ -71,8 +71,9 @@ export default function JoinedCommunities() {
                     alt="Default Community Icon"
                     height={24}
                     width={24}
+                    priority
                   />{" "}
-                  <span className="text-sm">{c}</span>
+                  <span className="text-sm">{communityName}</span>
                 </span>
                 <GoStar className="size-8 rounded-full p-2 hover:bg-gray-300" />
               </Link>

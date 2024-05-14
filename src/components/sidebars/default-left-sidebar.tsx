@@ -30,7 +30,7 @@ export default function DefaultLeftSidebar() {
       <ScrollArea className="min-h-full h-80 pb-20">
         <div className="flex flex-col w-full space-y-2 my-4">
           <Link
-            href={"#"}
+            href={"/"}
             className="flex items-center hover:bg-gray-100 py-2 px-4 rounded-md"
           >
             <LiaHomeSolid className="mr-2 size-5" /> <span>Home</span>
