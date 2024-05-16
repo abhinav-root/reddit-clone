@@ -22,6 +22,8 @@ model User {
   Post               Post[]
   createdAt          DateTime    @default(now())
   updatedAt          DateTime    @updatedAt
+  Comment            Comment[]
+  PostVote           PostVote[]
 }
 
 model Account {
@@ -77,7 +79,7 @@ model Community {
 }
 
 model Post {
-  id          String     @id @default(cuid())
+  id          Int        @id @default(autoincrement())
   title       String // max 50 chars
   body        String? // max 1000
   image       String?
@@ -96,18 +98,25 @@ model Post {
 model Comment {
   id        String @id @default(cuid())
   body      String // max 100
-  postId    String
+  postId    Int
   post      Post   @relation(fields: [postId], references: [id])
-  upvotes   Int
-  downvotes Int
+  upvotes   Int    @default(0)
+  downvotes Int    @default(0)
+  authorId  String
+  author    User   @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model PostVote {
   id     String   @id @default(cuid())
   type   VoteType
-  postId String
+  postId Int
   post   Post     @relation(fields: [postId], references: [id])
 
+  likedById String
+  likedBy   User     @relation(fields: [likedById], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

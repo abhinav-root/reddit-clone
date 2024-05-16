@@ -7,7 +7,11 @@ import { validateRequest } from "@/lucia";
 export async function CreateCommunity(form: CreateCommunitySchema) {
   const { user } = await validateRequest();
   if (!user) {
-    return { success: false, statusCode: 401, error: "Please login to continue" };
+    return {
+      success: false,
+      statusCode: 401,
+      error: "Please login to continue",
+    };
   }
   const validationResult = createCommunitySchema.safeParse(form);
   if (!validationResult.success) {
@@ -32,4 +36,14 @@ export async function CreateCommunity(form: CreateCommunitySchema) {
   });
 
   return { success: true, statusCode: 200, message: "Community Created" };
+}
+
+export async function findCommunityByName(name: string) {
+  try {
+    const community = await prisma.community.findUnique({ where: { name } });
+    return community;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }

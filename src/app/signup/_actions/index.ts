@@ -47,6 +47,7 @@ export async function signup(form: SignupSchema) {
     return { success: true, message: "Account created successfully." };
   } catch (err) {
     console.log(err);
+    return { success: false, error: "Internal Server Error"};
   }
 }
 

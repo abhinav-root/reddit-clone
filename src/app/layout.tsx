@@ -39,7 +39,7 @@ export default function RootLayout({
 
         <div className="container max-w-[1500px] mx-auto flex min-h-screen">
           <LeftSidebar />
-          <div className="grow-[5] min-w-[500px] text-center">{children}</div>
+          <div className="grow-[5] min-w-[500px] max-w-[850px] text-center">{children}</div>
           <RightSidebar />
           {signupModal}
           {loginModal}
@@ -52,7 +52,7 @@ export default function RootLayout({
 
 function LeftSidebar() {
   return (
-    <div className="border-r grow max-w-72 hidden lg:flex">
+    <div className="border-r grow max-w-80 hidden lg:flex">
       <DefaultLeftSidebar />
     </div>
   );
@@ -60,7 +60,7 @@ function LeftSidebar() {
 
 function RightSidebar() {
   return (
-    <div className="border-l grow max-w-72 hidden lg:flex py-4">
+    <div className="border-l grow max-w-80 hidden lg:flex py-4">
       <DefaultRightSidebar />
     </div>
   );

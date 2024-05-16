@@ -13,36 +13,27 @@ import { GoStarFill } from "react-icons/go";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { IoAddOutline } from "react-icons/io5";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { getJoinedCommunities } from "@/app/r/submit/_actions";
+
+type Community = {
+  id: string;
+  name: string;
+  logo: string | null;
+};
 
 export default function JoinedCommunities() {
-  const communties = [
-    "196",
-    "1Password",
-    "52Book",
-    "AajMaineJana",
-    "AbruptChaos",
-    "accidents",
-    "Accounting",
-    "airpods",
-    "AdviceAnimals",
-    "algorithms",
-    "AmazonPrime",
-    "AMD",
-    "AmericaBad",
-    "amiugly",
-    "AirTravelIndia",
-    "Androind",
-    "Analytics",
-    "androidthemes",
-    "AndroidTV",
-    "apple",
-    "AppleMusic",
-    "appletv",
-    "AppleWatch",
-  ];
+  const [communities, setCommunities] = useState<Community[]>([]);
   const [viewCommunities, setViewCommunities] = useState(true);
+
+  useEffect(() => {
+    async function loadCommunities() {
+      const data = await getJoinedCommunities();
+      setCommunities(data);
+    }
+    loadCommunities();
+  }, []);
 
   return (
     <div className="my-4">
@@ -59,21 +50,21 @@ export default function JoinedCommunities() {
               <IoAddOutline className="size-6" />{" "}
               <span className="text-sm">Create a community</span>
             </Link>
-            {communties.map((communityName) => (
+            {communities.map((community) => (
               <Link
-                key={communityName}
-                href={`/r/${communityName}`}
+                key={community.id}
+                href={`/r/${community.name}`}
                 className="flex items-center justify-between hover:bg-gray-100 py-2 px-4 rounded-md"
               >
                 <span className="flex items-center space-x-2">
                   <Image
-                    src={"default-community-icon.svg"}
+                    src={community.logo ?? "default-community-icon.svg"}
                     alt="Default Community Icon"
                     height={24}
                     width={24}
                     priority
                   />{" "}
-                  <span className="text-sm">{communityName}</span>
+                  <span className="text-sm">{community.name}</span>
                 </span>
                 <GoStar className="size-8 rounded-full p-2 hover:bg-gray-300" />
               </Link>
