@@ -1,0 +1,137 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                 String      @id @default(cuid())
+  email              String      @unique
+  username           String
+  password           String?
+  salt               String?
+  emailVerified      DateTime?
+  profileImage       String?
+  accounts           Account[]
+  sessions           Session[]
+  joinedCommunities  Community[] @relation("JoinedCommunities")
+  createdCommunities Community[] @relation("CreatedCommunities")
+  Post               Post[]
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  Comment            Comment[]
+  PostVote           PostVote[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// A user will receive notifications from comms he/she has joined
+model Community {
+  id          String  @id @default(cuid())
+  name        String  @unique // 21 chars
+  title       String // 50 chars
+  description String? // 100
+  logo        String?
+
+  relatedToId        String?
+  relatedTo          Community?  @relation("RelatedCommunities", fields: [relatedToId], references: [id])
+  relatedCommunities Community[] @relation("RelatedCommunities") // max 10
+
+  rules   Rule[]
+  members User[] @relation("JoinedCommunities")
+
+  createdById String
+  creator     User   @relation("CreatedCommunities", fields: [createdById], references: [id])
+
+  posts Post[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id          Int        @id @default(autoincrement())
+  title       String // max 50 chars
+  body        String? // max 1000
+  image       String?
+  communityId String
+  community   Community  @relation(fields: [communityId], references: [id])
+  votes       PostVote[]
+  comments    Comment[]
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id        String @id @default(cuid())
+  body      String // max 100
+  postId    Int
+  post      Post   @relation(fields: [postId], references: [id])
+  upvotes   Int    @default(0)
+  downvotes Int    @default(0)
+  authorId  String
+  author    User   @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PostVote {
+  id     String   @id @default(cuid())
+  type   VoteType
+  postId Int
+  post   Post     @relation(fields: [postId], references: [id])
+
+  likedById String
+  likedBy   User     @relation(fields: [likedById], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum VoteType {
+  UP
+  DOWN
+}
+
+model Rule {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
