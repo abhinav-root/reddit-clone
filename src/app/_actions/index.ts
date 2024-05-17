@@ -24,3 +24,20 @@ export async function getPostVotes(postId: number) {
   const votes = await prisma.postVote.findMany({ where: { postId } });
   return votes;
 }
+
+export async function getCommunityInfo(communityName: string) {
+  try {
+    const community = await prisma.community.findUnique({
+      where: { name: communityName },
+      select: {
+        name: true,
+        title: true,
+        description: true,
+      },
+    });
+
+    return community;
+  } catch (error) {
+    console.log(error);
+  }
+}

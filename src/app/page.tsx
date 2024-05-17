@@ -80,7 +80,7 @@ export default function Home() {
                 onClick={() => router.push(`/r/${post.community.name}/posts/${post.id}`, {scroll: false})}
                 key={post.id}
               >
-                <div className="my-6 hover:bg-gray-200 rounded-md">
+                <div className="my-6 hover:bg-gray-200 rounded-md hover:cursor-pointer">
                   <Post {...post} />
                   {index === posts.length - 1 && <div ref={ref}></div>}
                   <Separator />
