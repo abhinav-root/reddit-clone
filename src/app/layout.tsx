@@ -7,6 +7,8 @@ import React from "react";
 import { Toaster } from "sonner";
 import DefaultLeftSidebar from "@/components/sidebars/default-left-sidebar";
 import DefaultRightSidebar from "@/components/sidebars/default-right-sidebar";
+import LeftSidebar from "@/components/sidebars/_components/left-sidebar";
+import RightSidebar from "@/components/sidebars/_components/right-sidebar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -50,18 +52,6 @@ export default function RootLayout({
   );
 }
 
-function LeftSidebar() {
-  return (
-    <div className="border-r grow max-w-80 hidden lg:flex">
-      <DefaultLeftSidebar />
-    </div>
-  );
-}
 
-function RightSidebar() {
-  return (
-    <div className="border-l grow max-w-80 hidden lg:flex py-4">
-      <DefaultRightSidebar />
-    </div>
-  );
-}
+
+
